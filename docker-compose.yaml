@@ -1,0 +1,36 @@
+services:
+  headscale:
+    image: headscale/headscale:0.27.0
+    restart: unless-stopped
+    container_name: headscale
+    labels:
+      me.tale.headplane.target: headscale
+    command: serve
+    networks:
+      headscale-net:
+        ipv4_address: 172.18.1.2
+    volumes:
+      - ./headscale/config.yaml:/etc/headscale/config.yaml
+      - ./headscale/dns_records:/etc/headscale/dns_records.json
+      - ./headscale/data:/var/lib/headscale
+
+  headplane:
+    image: ghcr.io/tale/headplane:latest
+    container_name: headplane
+    restart: unless-stopped
+    networks:
+      headscale-net:
+        ipv4_address: 172.18.1.3
+    volumes:
+      - ./headplane/config.yaml:/etc/headplane/config.yaml
+      - ./headplane/data:/var/lib/headplane
+      - ./headscale/config.yaml:/etc/headscale/config.yaml
+      - ./headscale/dns_records:/etc/headscale/dns_records.json
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+networks:
+  headscale-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.1.0/29
