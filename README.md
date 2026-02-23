@@ -65,7 +65,7 @@ Edit `/etc/nginx/sites-available/vpn.example.com`:
 Enable the site and reload Nginx:
 ```bash
 sudo ln -s /etc/nginx/sites-available/vpn.example.com /etc/nginx/sites-enabled/
-sudo systemctl reload nginx
+sudo nginx -s reload
 ```
 
 Obtain an SSL certificate (Headscale requires HTTPS for Tailscale clients):
