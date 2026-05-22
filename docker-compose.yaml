@@ -1,6 +1,6 @@
 services:
   headscale:
-    image: headscale/headscale:0.27.0
+    image: headscale/headscale:0.28.0
     restart: unless-stopped
     container_name: headscale
     labels:
@@ -15,7 +15,7 @@ services:
       - ./headscale/data:/var/lib/headscale
 
   headplane:
-    image: ghcr.io/tale/headplane:latest
+    image: ghcr.io/tale/headplane:0.6.2
     container_name: headplane
     restart: unless-stopped
     networks:
